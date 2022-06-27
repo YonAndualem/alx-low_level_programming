@@ -1,4 +1,4 @@
-#include "main.h"
+#include "holberton.h"
 #include <stdlib.h>
 
 /**
@@ -66,4 +66,11 @@ char **strtow(char *str)
 			for (l = 0; l < j; l++)
 				w[wc][l] = str[i + l];
 			w[wc][l] = '\0';
-
+			wc++;
+			i += j;
+		}
+		else
+			i++;
+	}
+	return (w);
+}

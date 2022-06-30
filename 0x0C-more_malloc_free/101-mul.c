@@ -1,91 +1,99 @@
 #include "main.h"
 
+int _strlen(char *s);
+int _toint(char *s);
 /**
- * _puts - prints a string, followed by a new line,
- * @str: pointer to the string to print
- * Return: void
-*/
-
-
-void _puts(char *str)
-{
-int i = 0;
-while (str[i])
-{
-	_putchar(str[i]);
-	i++;
-}
-
-}
-
-/**
- * _atoi - convert a string to an integer.
- * @s: char type string
- * Return: integer converted
+ * main - multiplies two numbers
+ * @argc: number of arguments
+ * @argv: array of pointers to string arguments
+ *
+ * Return: always 0 for success
  */
 
-int _atoi(const char *s)
+int main(int argc, char *argv[])
 {
-    int sign = 1;
-	unsigned long int resp = 0, firstNum, i;
+	long int num1, num2;
 
-	for (firstNum = 0; !(s[firstNum] >= 48 && s[firstNum] <= 57); firstNum++)
+	if (argc != 3)
 	{
-		if (s[firstNum] == '-')
+		printf("Error\n");
+		exit(98);
+	}
+	if (_toint(argv[1]) == 0)
+	{
+		printf("Error\n");
+		exit(98);
+	}
+	if (_toint(argv[2]) == 0)
+	{
+		printf("Error\n");
+		exit(98);
+	}
+
+	if (*argv[1] == 48)
+		num1 = 0;
+	else
+		num1 = _toint(argv[1]);
+	if (*argv[2] == 48)
+		num2 = 0;
+	else
+		num2 = _toint(argv[2]);
+	printf("%ld\n", num1 * num2);
+	return (0);
+}
+
+/**
+ * _strlen - prints out the length of the specified string
+ * @s: string which length is to be calculated
+ *
+ * Return: the length of the string (int)
+ */
+
+int _strlen(char *s)
+{
+	int size = 0;
+
+	while (*s)
+	{
+		size++;
+		s++;
+	}
+	return (size);
+}
+
+/**
+ * _toint - convert str to int
+ * @s: string value
+ *
+ * Return: int value
+ */
+int _toint(char *s)
+{
+	int size, i, isNegative;
+	long int number;
+
+	size = _strlen(s);
+	number = 0;
+	isNegative = 0;
+	for (i = 0; i < size; i++)
+	{
+		if (s[i] == 45)
 		{
-			sign *= -1;
+			isNegative = 1;
+			continue;
+		}
+		else if (s[i] > 47 && s[i] < 58)
+		{
+			number = (number * 10) + (s[i] - 48);
+			/* printf("%dth - %d\n", i, number); */
+		}
+		else
+		{
+			return (0);
 		}
 	}
-
-	for (i = firstNum; s[i] >= 48 && s[i] <= 57; i++)
-	{
-		resp *= 10;
-		resp += (s[i] - 48);
-	}
-
-	return (sign * resp);
-}
-
-/**
- * print_int - prints an integer.
- * @n: int
- * Return: 0
- */
-
-void print_int(unsigned long int n)
-{
-
-unsigned  long int divisor = 1, i, resp;
-
-for (i = 0; n / divisor > 9; i++, divisor *= 10)
-;
-
-for (; divisor >= 1; n %= divisor, divisor /= 10)
-{
-	resp = n / divisor;
-	_putchar('0' + resp);
-}
-
-}
-
-/**
- * main - print the result of the multiplication, followed by a new line
- * @argc: int
- * @argv: list
- * Return: 0
- */
-
-int main(int argc, char const *argv[])
-{
-(void)argc;
-
-if (argc != 3)
-{
-	_puts("Error ");
-	exit(98);
-}
-print_int(_atoi(argv[1]) * _atoi(argv[2]));
-_putchar('\n');
-
-return (0);
+	/* printf("%s => %ld : len - %d\n", s, number, size); */
+	if (isNegative)
+		return (-1 * number);
+	return (number);
 }
